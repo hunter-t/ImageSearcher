@@ -7,8 +7,8 @@ import android.graphics.Bitmap;
  */
 public class Result {
 
-    private float Width;
-    private float Height;
+    private int Width;
+    private int Height;
     private String Title;
     private String MediaUrl;
     private Thumbnail Thumbnail;
@@ -19,11 +19,11 @@ public class Result {
         return Title;
     }
 
-    public float getWidth() {
+    public int getWidth() {
         return Width;
     }
 
-    public float getHeight() {
+    public int getHeight() {
         return Height;
     }
 
@@ -33,6 +33,10 @@ public class Result {
 
     public Bitmap getImage() {
         return image;
+    }
+
+    public String getThumbnailUrl() {
+        return Thumbnail.getMediaUrl();
     }
 
     public void setThumbnail(Bitmap thumbnailImage) {

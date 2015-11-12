@@ -9,7 +9,7 @@
         android:id="@id/result_view_thumbnail"
         android:layout_width="@dimen/result_view_thumbnail_size"
         android:layout_height="@dimen/result_view_thumbnail_size"
-        android:layout_margin="@dimen/result_view_thumbnail_margin"/>
+        android:layout_margin="@dimen/result_view_horizontal_padding"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,6 +22,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
+            android:maxLines="3"
+            android:layout_marginRight="@dimen/result_view_horizontal_padding"
             android:textSize="@dimen/result_view_large_text"
             android:text="Image Title" />
 

@@ -28,7 +28,7 @@ public class SearchResultHolder extends RecyclerView.ViewHolder {
 
     public void bindData(Result result) {
         title.setText(result.getTitle());
-        resolution.setText(result.getWidth() + "x" + result.getHeight());
+        resolution.setText(result.getWidth() + " x " + result.getHeight());
     }
 
     public void bindThumbnail(Bitmap bitmap, boolean animate) {

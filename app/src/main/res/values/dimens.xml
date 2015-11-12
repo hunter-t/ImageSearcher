@@ -8,9 +8,9 @@
 
     <!-- Result view -->
     <dimen name="result_view_height">132dp</dimen>
-    <dimen name="result_view_large_text">18sp</dimen>
+    <dimen name="result_view_large_text">17sp</dimen>
     <dimen name="result_view_medium_text">14sp</dimen>
     <dimen name="result_view_thumbnail_size">100dp</dimen>
-    <dimen name="result_view_thumbnail_margin">16dp</dimen>
+    <dimen name="result_view_horizontal_padding">16dp</dimen>
 
 </resources>
