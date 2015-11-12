@@ -1,9 +1,10 @@
-package com.octabrain.search.ui;
+package com.octabrain.search.ui.activities;
 
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -38,6 +39,9 @@ import com.octabrain.search.data.QuerySuggestionsProvider;
 import com.octabrain.search.data.ResultsDataSource;
 import com.octabrain.search.data.json.Result;
 import com.octabrain.search.data.json.SearchResults;
+import com.octabrain.search.events.Event;
+import com.octabrain.search.events.EventDispatcher;
+import com.octabrain.search.ui.SearchResultHolder;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -63,9 +67,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             currentQuery = savedInstanceState.getString("current_query");
-            if (currentQuery != null)
-                search(currentQuery);
+        } else {
+            SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+            currentQuery = sharedPreferences.getString("current_query", null);
         }
+        if (currentQuery != null)
+            search(currentQuery);
     }
 
     @Override
@@ -99,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onResponse(String string) {
                     SearchResults results = JsonWorker.readResult(string);
                     ResultsDataSource.cacheData(query, results);
-                    showResults(results);
+                    showResults(query, results);
                 }
             };
 
@@ -117,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
             queue.add(request);
         } else {
-            showResults(ResultsDataSource.get(query));
+            showResults(query, ResultsDataSource.get(query));
         }
         currentQuery = query;
     }
@@ -129,20 +136,22 @@ public class MainActivity extends AppCompatActivity {
         progressIndicator.setAnimation(rotate);
     }
 
-    private void showResults(SearchResults results) {
+    private void showResults(String query, SearchResults results) {
         progressIndicator.clearAnimation();
         progressIndicator.setVisibility(View.GONE);
         resultsList.setVisibility(View.VISIBLE);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         resultsList.setLayoutManager(layoutManager);
-        resultsList.setAdapter(new SearchResultsAdapter(results.getResults()));
+        resultsList.setAdapter(new SearchResultsAdapter(query, results.getResults()));
     }
 
     private class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultHolder> {
 
+        private String query;
         private ArrayList<Result> results;
 
-        public SearchResultsAdapter(ArrayList<Result> results) {
+        public SearchResultsAdapter(String query, ArrayList<Result> results) {
+            this.query = query;
             this.results = results;
         }
 
@@ -152,8 +161,10 @@ public class MainActivity extends AppCompatActivity {
             resultView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Result result = results.get(resultsList.getChildLayoutPosition(view));
-                    showImage(result.getImage());
+                    int resultIdx = resultsList.getChildLayoutPosition(view);
+                    Result result = results.get(resultIdx);
+                    result.setIdx(resultIdx);
+                    showImage(query, resultIdx, result.getTitle(), result.getImage(), result.getThumbnail());
                 }
             });
             return new SearchResultHolder(resultView);
@@ -164,7 +175,10 @@ public class MainActivity extends AppCompatActivity {
             final Result result = results.get(position);
             holder.bindData(result);
             holder.unbindThumbnail();
-            if (result.getThumbnailImage() == null) {
+            /*
+             * Load thumbnail.
+             */
+            if (result.getThumbnail() == null) {
                 String thumbnailUrl = result.getThumbnailUrl();
                 ImageRequest imageRequest = new ImageRequest(thumbnailUrl,
                         new Response.Listener<Bitmap>() {
@@ -172,11 +186,12 @@ public class MainActivity extends AppCompatActivity {
                             public void onResponse(Bitmap bitmap) {
                                 result.setThumbnail(bitmap);
                                 holder.bindThumbnail(bitmap, true);
+                                EventDispatcher.dispatch(Event.THUMBNAIL_LOADED, result);
                             }
                         }, 0, 0, ImageView.ScaleType.CENTER_CROP, null, null);
                 Volley.newRequestQueue(getApplicationContext()).add(imageRequest);
             } else {
-                holder.bindThumbnail(result.getThumbnailImage(), false);
+                holder.bindThumbnail(result.getThumbnail(), false);
             }
         }
 
@@ -186,8 +201,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void showImage(Bitmap image) {
-
+    private void showImage(String query, int resultIdx, String title, Bitmap image, Bitmap thumbnail) {
+        Intent intent = new Intent(getApplicationContext(), ImageActivity.class);
+        intent.putExtra("query", query);
+        intent.putExtra("title", title);
+        intent.putExtra("image", image);
+        intent.putExtra("resultIdx", resultIdx);
+        intent.putExtra("thumbnail", thumbnail);
+        startActivity(intent);
     }
 
     private boolean isConnected() {
@@ -216,6 +237,15 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("current_query", currentQuery);
+        editor.apply();
+        super.onBackPressed();
     }
 
     @Override

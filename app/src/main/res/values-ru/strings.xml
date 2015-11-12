@@ -1,6 +1,7 @@
 <resources>
 
     <string name="action_search">Поиск</string>
+    <string name="image_activity_title">Изображение</string>
     <string name="search_hint">Введите поисковый запрос</string>
     <string name="no_connection">Нет подключения к интернету</string>
 

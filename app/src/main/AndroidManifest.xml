@@ -16,7 +16,7 @@
             android:authorities="com.octabrain.search.data.QuerySuggestionsProvider" />
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop">
             <meta-data android:name="android.app.searchable" android:resource="@xml/search_config" />
@@ -26,6 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activities.ImageActivity" />
     </application>
 
 </manifest>

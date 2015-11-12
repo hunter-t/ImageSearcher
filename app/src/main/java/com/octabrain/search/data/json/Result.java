@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
  */
 public class Result {
 
+    private int idx;
     private int Width;
     private int Height;
     private String Title;
@@ -27,12 +28,24 @@ public class Result {
         return Height;
     }
 
+    public void setIdx(int idx) {
+        this.idx = idx;
+    }
+
+    public int getIdx() {
+        return idx;
+    }
+
     public void setImage(Bitmap image) {
         this.image = image;
     }
 
     public Bitmap getImage() {
         return image;
+    }
+
+    public String getMediaUrl() {
+        return MediaUrl;
     }
 
     public String getThumbnailUrl() {
@@ -43,7 +56,7 @@ public class Result {
         Thumbnail.setThumbnailImage(thumbnailImage);
     }
 
-    public Bitmap getThumbnailImage() {
+    public Bitmap getThumbnail() {
         return Thumbnail.getThumbnailImage();
     }
 

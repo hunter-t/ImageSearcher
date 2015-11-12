@@ -1,22 +1,18 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/black">
 
     <FrameLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@id/results_list"
+        <ImageView
+            android:id="@id/img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:overScrollMode="never" />
+            android:scaleType="fitCenter" />
 
         <View
             android:id="@id/progress_indicator"
@@ -24,10 +20,11 @@
             android:layout_height="@dimen/progress_indicator_size"
             android:layout_gravity="center"
             android:visibility="gone"
-            android:layout_marginBottom="?attr/actionBarSize"
-            android:background="@drawable/ic_progress_indicator_indigo" />
+            android:background="@drawable/ic_progress_indicator_white" />
 
     </FrameLayout>
+
+
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -36,10 +33,9 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@id/toolbar"
+            android:background="@android:color/black"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/indigo"
-            app:layout_scrollFlags="scroll|enterAlways" />
+            android:layout_height="?attr/actionBarSize" />
 
     </android.support.design.widget.AppBarLayout>
 

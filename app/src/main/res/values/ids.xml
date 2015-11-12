@@ -7,6 +7,9 @@
     <item type="id" name="action_search" />
     <item type="id" name="progress_indicator" />
 
+    <!-- Image Activity -->
+    <item type="id" name="img" />
+
     <!-- Thumbnail -->
     <item type="id" name="thumbnail_image" />
 
