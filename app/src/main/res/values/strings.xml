@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="app_name">Images Search</string>
+    <string name="action_search">Search</string>
+    <string name="search_hint">Enter search query</string>
+    <string name="no_connection">Can not connect to the Internet</string>
+
+</resources>

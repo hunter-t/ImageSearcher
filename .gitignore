@@ -1,0 +1,15 @@
+local.properties
+.idea/
+.gradle/
+/build
+/gradle
+/app/build
+/app/.gradle/
+/captures
+/proguard
+/bin
+/gen
+*.log
+*.DS_Store
+gradlew.bat
+*.hprof

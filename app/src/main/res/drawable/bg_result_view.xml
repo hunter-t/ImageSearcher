@@ -1,0 +1,13 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+          android:exitFadeDuration="@android:integer/config_shortAnimTime" >
+
+    <item android:state_pressed="true"
+          android:drawable="@color/soft_peach_tint" />
+
+    <item android:state_focused="true"
+          android:drawable="@color/soft_peach_tint" />
+
+    <item android:state_pressed="false"
+          android:drawable="@android:color/transparent" />
+
+</selector>

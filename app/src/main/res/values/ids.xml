@@ -1,0 +1,18 @@
+<resources>
+
+    <!-- Main Activity -->
+    <item type="id" name="toolbar" />
+    <item type="id" name="coordinator" />
+    <item type="id" name="results_list" />
+    <item type="id" name="action_search" />
+    <item type="id" name="progress_indicator" />
+
+    <!-- Thumbnail -->
+    <item type="id" name="thumbnail_image" />
+
+    <!-- Result view -->
+    <item type="id" name="result_view_thumbnail" />
+    <item type="id" name="result_view_title" />
+    <item type="id" name="result_view_image_resolution" />
+
+</resources>
